@@ -1,0 +1,74 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { InscricaoForm } from '@/components/InscricaoForm'
+import { BotoesPagamento } from '@/components/BotoesPagamento'
+import { CoinMario } from '@/components/ui/CoinMario'
+import { QRCodePlaceholder } from '@/components/ui/QRCodePlaceholder'
+type PopupTipo = 'r10' | 'oferta'
+
+interface FaseBossProps {
+  inscrito: boolean
+  onConfirmarInscricao: () => void
+  onAbrirPopup: (tipo: PopupTipo) => void
+}
+
+export function FaseBoss({ inscrito, onConfirmarInscricao, onAbrirPopup }: FaseBossProps) {
+  return (
+    <section
+      id="inscricao"
+      className="min-h-screen py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-brand-black/60 flex items-center scroll-mt-20"
+    >
+      <div className="w-full max-w-2xl mx-auto">
+        <motion.h2
+          className="font-pixel text-2xl sm:text-3xl text-brand-gold mb-6 text-center"
+          initial={{ scale: 0.8, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ type: 'tween', duration: 0.3 }}
+        >
+          INSCREVER-SE
+        </motion.h2>
+        <motion.p
+          className="font-body text-brand-white text-xl text-center mb-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          Chegou a hora de garantir sua vaga!
+        </motion.p>
+        <motion.div
+          className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 mb-10 py-6 px-6 border-4 border-brand-gold bg-brand-purple/30"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <div className="flex items-center gap-3">
+            <CoinMario size={40} />
+            <span className="font-pixel text-sm sm:text-base text-brand-gold text-center">
+              TAXA DE INSCRIÇÃO: R$ 10,00
+            </span>
+            <CoinMario size={40} />
+          </div>
+          <div className="flex flex-col items-center justify-center gap-3">
+            <span className="font-pixel text-xs text-brand-gold text-center">
+              QR CODE PAGAMENTO
+            </span>
+            <div className="border-4 border-brand-gold p-2 bg-white flex justify-center">
+              <QRCodePlaceholder size={120} />
+            </div>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ type: 'tween', duration: 0.3 }}
+        >
+          <InscricaoForm onConfirmado={onConfirmarInscricao} inscrito={inscrito} />
+          <BotoesPagamento inscrito={inscrito} onAbrirPopup={onAbrirPopup} />
+        </motion.div>
+      </div>
+    </section>
+  )
+}
