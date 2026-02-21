@@ -16,7 +16,7 @@ interface FaseBossProps {
   modalAberto: boolean
   modalTipo: ModalTipo
   onFecharModal: () => void
-  modalRef: React.RefObject<HTMLDivElement | null>
+  modalRef: React.RefObject<HTMLDivElement>
 }
 
 export function FaseBoss({ inscrito, onConfirmarInscricao, onAbrirModal, modalAberto, modalTipo, onFecharModal, modalRef }: FaseBossProps) {

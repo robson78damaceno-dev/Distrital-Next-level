@@ -18,7 +18,7 @@ interface ModalQRCodeProps {
   aberto: boolean
   tipo: ModalTipo
   onFechar: () => void
-  modalRef?: React.RefObject<HTMLDivElement | null>
+  modalRef?: React.RefObject<HTMLDivElement>
 }
 
 export function ModalQRCode({ aberto, tipo, onFechar, modalRef }: ModalQRCodeProps) {
