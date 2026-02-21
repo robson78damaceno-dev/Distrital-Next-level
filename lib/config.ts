@@ -9,4 +9,6 @@ export const CONFIG = {
   QR_CODE_R10: '/qr-code.svg',
   QR_CODE_OFERTA: '/qr-code.svg',
   FORMSPREE_ID: process.env.NEXT_PUBLIC_FORMSPREE_ID || 'COLE_SEU_FORMSPREE_ID',
+  /** FormSubmit.co - gratuito, sem limite. Coloque seu e-mail para receber as inscrições. */
+  FORMSUBMIT_EMAIL: process.env.NEXT_PUBLIC_FORMSUBMIT_EMAIL || '',
 }

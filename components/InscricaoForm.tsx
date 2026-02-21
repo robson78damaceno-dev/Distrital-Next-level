@@ -27,20 +27,27 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
     setEnviando(true)
 
     try {
-      const formData = new FormData()
-      formData.append('nome', nome)
-      formData.append('email', email)
-      formData.append('telefone', telefone)
-      formData.append('_subject', 'Nova inscrição - Next level')
+      const formEmail = CONFIG.FORMSUBMIT_EMAIL?.trim()
+      if (!formEmail) throw new Error('Configure NEXT_PUBLIC_FORMSUBMIT_EMAIL no .env.local')
 
-      if (CONFIG.FORMSPREE_ID && !CONFIG.FORMSPREE_ID.includes('COLE')) {
-        const res = await fetch(`https://formspree.io/f/${CONFIG.FORMSPREE_ID}`, {
-          method: 'POST',
-          body: formData,
-          headers: { Accept: 'application/json' },
-        })
-        if (!res.ok) throw new Error('Falha ao enviar')
+      const payload: Record<string, string> = {
+        nome,
+        email,
+        telefone,
+        _subject: 'Nova inscrição - Next level',
+        _replyto: email,
       }
+      if (typeof window !== 'undefined') {
+        payload._url = window.location.origin + window.location.pathname
+      }
+
+      const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(formEmail)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error((data as { message?: string })?.message || 'Falha ao enviar')
 
       setEnviado(true)
       onConfirmado()
