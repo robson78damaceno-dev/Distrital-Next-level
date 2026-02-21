@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { StartScreen } from '@/components/phases/StartScreen'
 import { HUD } from '@/components/ui/HUD'
@@ -10,21 +10,29 @@ import { FaseExperiencia } from '@/components/phases/FaseExperiencia'
 import { FaseGincana } from '@/components/phases/FaseGincana'
 import { FaseBoss } from '@/components/phases/FaseBoss'
 import { EndScreen } from '@/components/phases/EndScreen'
-import { PopupQRCode } from '@/components/PopupQRCode'
 import { useInscricao } from '@/hooks/useInscricao'
 
-type PopupTipo = 'r10' | 'oferta'
+type ModalTipo = 'r10' | 'oferta'
 
 export default function Home() {
   const { inscrito, confirmarInscricao } = useInscricao()
   const [gameStarted, setGameStarted] = useState(false)
-  const [popupAberto, setPopupAberto] = useState(false)
-  const [popupTipo, setPopupTipo] = useState<PopupTipo>('r10')
+  const [modalAberto, setModalAberto] = useState(false)
+  const [modalTipo, setModalTipo] = useState<ModalTipo>('r10')
+  const modalRef = useRef<HTMLDivElement>(null)
 
-  const abrirPopup = (tipo: PopupTipo) => {
-    setPopupTipo(tipo)
-    setPopupAberto(true)
+  const abrirModal = (tipo: ModalTipo) => {
+    setModalTipo(tipo)
+    setModalAberto(true)
   }
+
+  useEffect(() => {
+    if (modalAberto && modalRef.current) {
+      requestAnimationFrame(() => {
+        modalRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      })
+    }
+  }, [modalAberto])
 
   return (
     <div className="min-h-screen relative">
@@ -44,15 +52,14 @@ export default function Home() {
             <FaseBoss
               inscrito={inscrito}
               onConfirmarInscricao={confirmarInscricao}
-              onAbrirPopup={abrirPopup}
+              onAbrirModal={abrirModal}
+              modalAberto={modalAberto}
+              modalTipo={modalTipo}
+              onFecharModal={() => setModalAberto(false)}
+              modalRef={modalRef}
             />
             <EndScreen />
           </main>
-          <PopupQRCode
-            aberto={popupAberto}
-            tipo={popupTipo}
-            onFechar={() => setPopupAberto(false)}
-          />
         </>
       )}
     </div>

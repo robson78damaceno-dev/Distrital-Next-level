@@ -3,17 +3,23 @@
 import { motion } from 'framer-motion'
 import { InscricaoForm } from '@/components/InscricaoForm'
 import { BotoesPagamento } from '@/components/BotoesPagamento'
+import { ModalQRCode } from '@/components/ModalQRCode'
 import { CoinMario } from '@/components/ui/CoinMario'
 import { QRCodePlaceholder } from '@/components/ui/QRCodePlaceholder'
-type PopupTipo = 'r10' | 'oferta'
+
+type ModalTipo = 'r10' | 'oferta'
 
 interface FaseBossProps {
   inscrito: boolean
   onConfirmarInscricao: () => void
-  onAbrirPopup: (tipo: PopupTipo) => void
+  onAbrirModal: (tipo: ModalTipo) => void
+  modalAberto: boolean
+  modalTipo: ModalTipo
+  onFecharModal: () => void
+  modalRef: React.RefObject<HTMLDivElement | null>
 }
 
-export function FaseBoss({ inscrito, onConfirmarInscricao, onAbrirPopup }: FaseBossProps) {
+export function FaseBoss({ inscrito, onConfirmarInscricao, onAbrirModal, modalAberto, modalTipo, onFecharModal, modalRef }: FaseBossProps) {
   return (
     <section
       id="inscricao"
@@ -66,7 +72,13 @@ export function FaseBoss({ inscrito, onConfirmarInscricao, onAbrirPopup }: FaseB
           transition={{ type: 'tween', duration: 0.3 }}
         >
           <InscricaoForm onConfirmado={onConfirmarInscricao} inscrito={inscrito} />
-          <BotoesPagamento inscrito={inscrito} onAbrirPopup={onAbrirPopup} />
+          <BotoesPagamento inscrito={inscrito} onAbrirModal={onAbrirModal} />
+          <ModalQRCode
+            aberto={modalAberto}
+            tipo={modalTipo}
+            onFechar={onFecharModal}
+            modalRef={modalRef}
+          />
         </motion.div>
       </div>
     </section>

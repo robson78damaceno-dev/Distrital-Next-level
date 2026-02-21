@@ -17,6 +17,7 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [telefone, setTelefone] = useState('')
+  const [igreja, setIgreja] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [enviado, setEnviado] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
@@ -41,6 +42,7 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
             nome,
             email,
             telefone,
+            igreja,
             replyto: email,
             botcheck: '',
           }),
@@ -52,6 +54,7 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
           nome,
           email,
           telefone,
+          igreja,
           _subject: 'Nova inscrição - Next level',
           _replyto: email,
         }
@@ -146,9 +149,25 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
             type="tel"
             required
             value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
+            onChange={(e) => setTelefone(e.target.value.replace(/[^0-9\s\-\(\)]/g, ''))}
+            inputMode="numeric"
+            pattern="[0-9]*"
             className={inputClass}
             placeholder="(00) 00000-0000"
+          />
+        </div>
+        <div>
+          <label htmlFor="igreja" className="block font-body text-brand-white mb-1">
+            Qual é a sua igreja?
+          </label>
+          <input
+            id="igreja"
+            type="text"
+            required
+            value={igreja}
+            onChange={(e) => setIgreja(e.target.value)}
+            className={inputClass}
+            placeholder="Nome da sua igreja"
           />
         </div>
         <PixelButton type="submit" disabled={enviando} className="w-full">

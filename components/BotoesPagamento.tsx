@@ -4,14 +4,14 @@ import { motion } from 'framer-motion'
 import { PixelButton } from '@/components/ui/PixelButton'
 import { CoinMario } from '@/components/ui/CoinMario'
 
-type PopupTipo = 'r10' | 'oferta'
+type ModalTipo = 'r10' | 'oferta'
 
 interface BotoesPagamentoProps {
   inscrito: boolean
-  onAbrirPopup: (tipo: PopupTipo) => void
+  onAbrirModal: (tipo: ModalTipo) => void
 }
 
-export function BotoesPagamento({ inscrito, onAbrirPopup }: BotoesPagamentoProps) {
+export function BotoesPagamento({ inscrito, onAbrirModal }: BotoesPagamentoProps) {
   if (!inscrito) return null
 
   return (
@@ -25,11 +25,11 @@ export function BotoesPagamento({ inscrito, onAbrirPopup }: BotoesPagamentoProps
         ESCOLHA A FORMA DE PAGAMENTO
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <PixelButton onClick={() => onAbrirPopup('r10')} className="w-full flex items-center justify-center gap-2">
+        <PixelButton onClick={() => onAbrirModal('r10')} className="w-full flex items-center justify-center gap-2">
           <CoinMario size={28} />
           R$ 10,00
         </PixelButton>
-        <PixelButton onClick={() => onAbrirPopup('oferta')} className="w-full">
+        <PixelButton onClick={() => onAbrirModal('oferta')} className="w-full">
           OFERTA VOLUNTÁRIA
         </PixelButton>
       </div>
