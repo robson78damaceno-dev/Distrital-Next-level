@@ -19,7 +19,7 @@ export function FaseSobre() {
         </motion.h2>
         <PixelCard className="mb-0">
           <p className="font-body text-xl sm:text-2xl text-brand-white leading-relaxed mb-8">
-            Crescimento espiritual, comunhão e intimidade com Deus. Um evento do distrito DF Sul para jovens e juvenis.
+            Crescimento espiritual, comunhão e intimidade com Deus. Um evento do distrito DF Sul e DF Norte para jovens e juvenis.
           </p>
           <blockquote className="border-l-4 border-brand-gold pl-6 py-3">
             <p className="font-body text-brand-gold text-xl sm:text-2xl">

@@ -13,6 +13,14 @@ interface InscricaoFormProps {
 const inputClass =
   'w-full px-4 py-3 border-4 border-brand-gold bg-brand-black text-brand-white placeholder-brand-white/50 focus:outline-none focus:border-brand-purple font-body'
 
+function formatarTelefone(valor: string): string {
+  const digitos = valor.replace(/\D/g, '').slice(0, 11)
+  if (digitos.length === 0) return ''
+  if (digitos.length <= 2) return `(${digitos}`
+  if (digitos.length <= 7) return `(${digitos.slice(0, 2)}) ${digitos.slice(2)}`
+  return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 7)}-${digitos.slice(7)}`
+}
+
 export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
@@ -131,9 +139,8 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
             type="tel"
             required
             value={telefone}
-            onChange={(e) => setTelefone(e.target.value.replace(/[^0-9\s\-\(\)]/g, ''))}
+            onChange={(e) => setTelefone(formatarTelefone(e.target.value))}
             inputMode="numeric"
-            pattern="[0-9]*"
             className={inputClass}
             placeholder="(00) 00000-0000"
           />
