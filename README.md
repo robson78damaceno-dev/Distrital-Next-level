@@ -33,10 +33,11 @@ Landing page para o evento evangélico **Next level**: suba mais um nível na in
 
 ## Configuração
 
-- **`lib/config.ts`** — Data do evento, link do WhatsApp, caminhos das imagens do QR code e (opcional) ID do Formspree.
-- **Variáveis de ambiente (opcional):** copie `.env.example` para `.env.local` e preencha:
+- **`lib/config.ts`** — Data do evento, link do WhatsApp e caminhos das imagens do QR code.
+- **Variáveis de ambiente (obrigatório para o formulário):** copie `.env.example` para `.env.local` e preencha:
   - `NEXT_PUBLIC_LINK_WHATSAPP` — link do grupo no WhatsApp
-  - `NEXT_PUBLIC_FORMSPREE_ID` — ID do formulário no [Formspree](https://formspree.io) para receber inscrições por e-mail
+  - `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` — pegue a chave em [web3forms.com](https://web3forms.com)
+- **Na Vercel:** adicione as mesmas variáveis em Settings > Environment Variables.
 
 ## QR code e link do WhatsApp
 
@@ -49,4 +50,4 @@ Enquanto não houver imagem em `public/qr-code.png`, o popup exibirá o texto "Q
 
 1. Conecte o repositório Git do projeto à [Vercel](https://vercel.com).
 2. O preset **Next.js** é detectado automaticamente.
-3. Se usar variáveis de ambiente (`NEXT_PUBLIC_LINK_WHATSAPP`, `NEXT_PUBLIC_FORMSPREE_ID`), configure-as no painel do projeto na Vercel.
+3. Se usar variáveis de ambiente (`NEXT_PUBLIC_LINK_WHATSAPP`, `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`), configure-as no painel do projeto na Vercel.

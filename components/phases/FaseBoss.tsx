@@ -5,7 +5,7 @@ import { InscricaoForm } from '@/components/InscricaoForm'
 import { BotoesPagamento } from '@/components/BotoesPagamento'
 import { ModalQRCode } from '@/components/ModalQRCode'
 import { CoinMario } from '@/components/ui/CoinMario'
-import { QRCodePlaceholder } from '@/components/ui/QRCodePlaceholder'
+import { CONFIG } from '@/lib/config'
 
 type ModalTipo = 'r10' | 'oferta'
 
@@ -61,7 +61,12 @@ export function FaseBoss({ inscrito, onConfirmarInscricao, onAbrirModal, modalAb
               QR CODE PAGAMENTO
             </span>
             <div className="border-4 border-brand-gold p-2 bg-white flex justify-center">
-              <QRCodePlaceholder size={120} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={CONFIG.QR_CODE_R10}
+                alt="QR Code para pagamento de R$ 10,00"
+                className="w-[120px] h-[120px] object-contain"
+              />
             </div>
           </div>
         </motion.div>

@@ -27,55 +27,37 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
     setErro(null)
     setEnviando(true)
 
-    try {
-      const web3Key = CONFIG.WEB3FORMS_ACCESS_KEY?.trim()
-      const formEmail = CONFIG.FORMSUBMIT_EMAIL?.trim()
+    const web3Key = CONFIG.WEB3FORMS_ACCESS_KEY?.trim()
 
-      if (web3Key) {
-        // Web3Forms - 250/mês grátis, confiável
-        const res = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            access_key: web3Key,
-            subject: 'Nova inscrição - Next level',
-            nome,
-            email,
-            telefone,
-            igreja,
-            replyto: email,
-            botcheck: '',
-          }),
-        })
-        const data = (await res.json().catch(() => ({}))) as { success?: boolean; message?: string }
-        if (!data.success) throw new Error(data.message || 'Falha ao enviar')
-      } else if (formEmail) {
-        const payload: Record<string, string> = {
+    try {
+      if (!web3Key) {
+        throw new Error(
+          'Configure NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY no .env.local (pegue em web3forms.com). Na Vercel: Settings > Environment Variables.'
+        )
+      }
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: web3Key,
+          subject: 'Nova inscrição - Next level',
           nome,
           email,
           telefone,
           igreja,
-          _subject: 'Nova inscrição - Next level',
-          _replyto: email,
-        }
-        if (typeof window !== 'undefined') {
-          payload._url = window.location.origin + window.location.pathname
-        }
-        const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(formEmail)}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(payload),
-        })
-        const data = await res.json().catch(() => ({}))
-        if (!res.ok) throw new Error((data as { message?: string })?.message || 'Falha ao enviar')
-      } else {
-        throw new Error('Configure NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY no .env.local (pegue em web3forms.com)')
-      }
+          replyto: email,
+          botcheck: '',
+        }),
+      })
+      const data = (await res.json().catch(() => ({}))) as { success?: boolean; message?: string }
+      if (!data.success) throw new Error(data.message || 'Falha ao enviar')
 
       setEnviado(true)
       onConfirmado()
-    } catch {
-      setErro('Não foi possível enviar. Confirme sua inscrição abaixo para continuar.')
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Não foi possível enviar.'
+      setErro(msg)
       setEnviado(true)
       onConfirmado()
     } finally {
