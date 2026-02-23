@@ -5,7 +5,8 @@
 
 export const CONFIG = {
   DATA_EVENTO: '21/03/2026',
-  LINK_WHATSAPP: process.env.NEXT_PUBLIC_LINK_WHATSAPP || 'https://wa.me/group/COLE_O_LINK_AQUI',
+  /** Link do grupo Recados DF Sul */
+  LINK_WHATSAPP: 'https://chat.whatsapp.com/IyxUDcKPMA16e1E3shML95',
   QR_CODE_R10: '/qr-code-10.png',
   QR_CODE_OFERTA: '/qr-code-oferta.png',
   /** Web3Forms - 250 inscrições/mês grátis. Pegue a chave em web3forms.com */

@@ -50,4 +50,10 @@ Enquanto não houver imagem em `public/qr-code.png`, o popup exibirá o texto "Q
 
 1. Conecte o repositório Git do projeto à [Vercel](https://vercel.com).
 2. O preset **Next.js** é detectado automaticamente.
-3. Se usar variáveis de ambiente (`NEXT_PUBLIC_LINK_WHATSAPP`, `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`), configure-as no painel do projeto na Vercel.
+3. **Obrigatório:** Configure as variáveis de ambiente no painel da Vercel:
+   - Acesse seu projeto na Vercel → **Settings** → **Environment Variables**
+   - Adicione cada variável (Production, Preview e Development):
+     - `NEXT_PUBLIC_LINK_WHATSAPP` = link do grupo WhatsApp
+     - `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` = sua chave do Web3Forms
+   - Clique em **Save** e faça um novo deploy (Redeploy) para aplicar.
+4. O arquivo `.env.local` **não** é enviado ao Git (por segurança). As variáveis precisam ser configuradas manualmente na Vercel.
