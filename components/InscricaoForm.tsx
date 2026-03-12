@@ -26,6 +26,8 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
   const [email, setEmail] = useState('')
   const [telefone, setTelefone] = useState('')
   const [igreja, setIgreja] = useState('')
+  const [convidadoNome, setConvidadoNome] = useState('')
+  const [convidadoSobrenome, setConvidadoSobrenome] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [enviado, setEnviado] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
@@ -54,6 +56,8 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
           email,
           telefone,
           igreja,
+          convidado_por_nome: convidadoNome,
+          convidado_por_sobrenome: convidadoSobrenome,
           replyto: email,
           botcheck: '',
         }),
@@ -73,7 +77,7 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
     }
   }
 
-  if (inscrito && enviado) {
+  if (inscrito) {
     return (
       <motion.div
         className="text-center py-8"
@@ -158,6 +162,29 @@ export function InscricaoForm({ onConfirmado, inscrito }: InscricaoFormProps) {
             className={inputClass}
             placeholder="Nome da sua igreja"
           />
+        </div>
+        <div>
+          <label className="block font-body text-brand-white mb-1">
+            Convidado por:
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            <input
+              id="convidado-nome"
+              type="text"
+              value={convidadoNome}
+              onChange={(e) => setConvidadoNome(e.target.value)}
+              className={inputClass}
+              placeholder="Nome"
+            />
+            <input
+              id="convidado-sobrenome"
+              type="text"
+              value={convidadoSobrenome}
+              onChange={(e) => setConvidadoSobrenome(e.target.value)}
+              className={inputClass}
+              placeholder="Sobrenome"
+            />
+          </div>
         </div>
         <PixelButton type="submit" disabled={enviando} className="w-full">
           {enviando ? 'ENVIANDO...' : 'CONFIRMAR INSCRIÇÃO'}

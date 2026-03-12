@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CONFIG } from '@/lib/config'
 
@@ -22,8 +23,36 @@ interface ModalQRCodeProps {
 }
 
 export function ModalQRCode({ aberto, tipo, onFechar, modalRef }: ModalQRCodeProps) {
-
+  const [copiado, setCopiado] = useState(false)
   const qrSrc = tipo === 'r10' ? CONFIG.QR_CODE_R10 : CONFIG.QR_CODE_OFERTA
+  const pixCode = tipo === 'r10' ? CONFIG.PIX_COPY_R10 : CONFIG.PIX_COPY_OFERTA
+
+  const copiarPix = () => {
+    if (!pixCode) return
+    const ok = () => {
+      setCopiado(true)
+      setTimeout(() => setCopiado(false), 2000)
+    }
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(pixCode).then(ok).catch(() => fallbackCopy())
+    } else {
+      fallbackCopy()
+    }
+    function fallbackCopy() {
+      const textarea = document.createElement('textarea')
+      textarea.value = pixCode
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      try {
+        document.execCommand('copy')
+        ok()
+      } finally {
+        document.body.removeChild(textarea)
+      }
+    }
+  }
 
   return (
     <div
@@ -72,6 +101,29 @@ export function ModalQRCode({ aberto, tipo, onFechar, modalRef }: ModalQRCodePro
                   }}
                 />
               </div>
+              {pixCode && (
+                <div className="w-full mb-6">
+                  <p className="font-body text-brand-white/80 text-center text-xs mb-2">
+                    Ou copie o código Pix:
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      readOnly
+                      value={pixCode}
+                      className="flex-1 px-3 py-2 border-2 border-brand-gold bg-brand-black text-brand-white text-xs font-mono truncate"
+                      aria-label="Código Pix"
+                    />
+                    <button
+                      type="button"
+                      onClick={copiarPix}
+                      className="shrink-0 px-4 py-2 border-2 border-brand-gold bg-brand-gold text-brand-black font-pixel text-xs hover:bg-brand-white transition-colors"
+                    >
+                      {copiado ? 'Copiado!' : 'Copiar'}
+                    </button>
+                  </div>
+                </div>
+              )}
               <p className="font-body text-brand-white/80 text-center text-sm mb-6">
                 Escaneie o QR code para realizar o pagamento. Após o pagamento, entre no grupo do evento no WhatsApp.
               </p>
